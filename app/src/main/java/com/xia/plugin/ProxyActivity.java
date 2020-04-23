@@ -1,7 +1,10 @@
 package com.xia.plugin;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
  * @ author : xia chen hui
  * @ email : 184415359@qq.com
  * @ date : 2020/4/22 21:47
- * @ desc : 宿主APP用于占位置的Activity，展示其他Module的Activity
+ * @ desc : 宿主APP用于占位置的Activity，展示其他Module的Activity   9.0之后，有些方法不能通过反射获取了
  */
 public class ProxyActivity extends Activity {
     //全类名
@@ -74,6 +77,7 @@ public class ProxyActivity extends Activity {
         return PluginManager.getInstance().getResources();
     }
 
+    //重写跳转
     @Override
     public void startActivity(Intent intent) {
         String className = intent.getStringExtra("className");
@@ -82,6 +86,25 @@ public class ProxyActivity extends Activity {
         super.startActivity(intent1);
     }
 
+    //重写开启服务
+    @Override
+    public ComponentName startService(Intent service) {
+        String serviceName = service.getStringExtra("serviceName");
+        Intent it = new Intent(this, ProxyService.class);
+        it.putExtra("serviceName", serviceName);
+        return super.startService(it);
+    }
 
+    //重写注册广播
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        IntentFilter intentFilter = new IntentFilter();
+        //获取action的数量
+        for (int i = 0; i < filter.countActions(); i++) {
+            intentFilter.addAction(filter.getAction(i));
+        }
+        return super.registerReceiver(
+                new ProxyBroadCastReceiver(receiver.getClass().getName(), this), intentFilter);
+    }
 
 }

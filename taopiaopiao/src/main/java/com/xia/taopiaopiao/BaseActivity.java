@@ -1,7 +1,10 @@
 package com.xia.taopiaopiao;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -42,12 +45,29 @@ public class BaseActivity extends Activity implements PayInterfaceActivity {
     public <T extends View> T findViewById(int id) {
         return mActivity.findViewById(id);
     }
-
+    //重写跳转Activity
     @Override
     public void startActivity(Intent intent) {
         Intent it = new Intent();
         it.putExtra("className", intent.getComponent().getClassName());
         mActivity.startActivity(it);
+    }
+    //重写开启服务
+    @Override
+    public ComponentName startService(Intent service) {
+        Intent it = new Intent();
+        it.putExtra("serviceName", service.getComponent().getClassName());
+        return mActivity.startService(it);
+    }
+    //重写广播注册
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        return mActivity.registerReceiver(receiver, filter);
+    }
+    //重写广播发送
+    @Override
+    public void sendBroadcast(Intent intent) {
+        mActivity.sendBroadcast(intent);
     }
 
     @Override

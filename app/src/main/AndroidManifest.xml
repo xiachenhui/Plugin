@@ -28,6 +28,9 @@
         <activity
             android:name=".ProxyActivity"
             android:launchMode="standard"></activity>
+
+        <!--占位用的Service-->
+        <service android:name=".ProxyService"></service>
     </application>
 
 </manifest>
