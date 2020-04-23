@@ -1,6 +1,7 @@
 package com.xia.taopiaopiao;
 
 import android.util.Log;
+import android.widget.Toast;
 
 public class OnService extends BaseService {
     private static final String TAG = "OnService";
@@ -9,7 +10,7 @@ public class OnService extends BaseService {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Toast.makeText(mService, "服务开启成功", Toast.LENGTH_SHORT).show();
         new Thread() {
             @Override
             public void run() {

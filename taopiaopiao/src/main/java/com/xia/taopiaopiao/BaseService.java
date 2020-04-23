@@ -10,7 +10,7 @@ import com.xia.pluginstand.PayInterfaceService;
 
 public class BaseService extends Service implements PayInterfaceService {
 
-    private Service mService;
+    public Service mService;
 
     @Nullable
     @Override
