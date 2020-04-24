@@ -17,6 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--插件中的静态广播-->
+        <receiver android:name=".StaticReceiver">
+            <intent-filter>
+                <action android:name="com.xia.taopiaopiao.StaticReceiver" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

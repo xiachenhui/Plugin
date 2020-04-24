@@ -16,6 +16,8 @@ import java.lang.reflect.InvocationTargetException;
  * @ desc : 占位置的BroadCastReceiver
  */
 public class ProxyBroadCastReceiver extends BroadcastReceiver {
+
+
     //全类名
     private String className;
 

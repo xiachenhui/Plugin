@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.xia.pluginstand.PayInterfaceActivity;
 
 public class BaseActivity extends Activity implements PayInterfaceActivity {
