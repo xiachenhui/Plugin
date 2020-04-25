@@ -27,6 +27,7 @@ public class ProxyActivity extends Activity {
     //全类名
     private String className;
     private PayInterfaceActivity payInterfaceActivity;
+    private ProxyBroadCastReceiver proxyBroadCastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,13 +99,26 @@ public class ProxyActivity extends Activity {
     //重写注册广播
     @Override
     public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
-        IntentFilter intentFilter = new IntentFilter();
-        //获取action的数量
-        for (int i = 0; i < filter.countActions(); i++) {
-            intentFilter.addAction(filter.getAction(i));
-        }
+        proxyBroadCastReceiver = new ProxyBroadCastReceiver(receiver.getClass().getName(), this);
         return super.registerReceiver(
-                new ProxyBroadCastReceiver(receiver.getClass().getName(), this), intentFilter);
+                proxyBroadCastReceiver, filter);
     }
 
+    @Override
+    public void unregisterReceiver(BroadcastReceiver receiver) {
+        if (proxyBroadCastReceiver != null) {
+            super.unregisterReceiver(proxyBroadCastReceiver);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (payInterfaceActivity != null) {
+            payInterfaceActivity.onDestroy();
+        }
+
+        super.onDestroy();
+
+
+    }
 }

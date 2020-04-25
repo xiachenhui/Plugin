@@ -3,10 +3,14 @@ package com.xia.taopiaopiao;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 public class TaoMainActivity extends BaseActivity {
+
+    private MyReceiver myReceiver;
+    private static final String TAG = "TaoMainActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +26,7 @@ public class TaoMainActivity extends BaseActivity {
 
             }
         });
-
+        myReceiver = new MyReceiver();
 
         //发送广播,插件内部发射广播，不需要在ProxyActivity中重写发送广播
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
@@ -39,7 +43,7 @@ public class TaoMainActivity extends BaseActivity {
                 //注册广播
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter.addAction("com.xia.taopiaopiao.TaoMainActivity");
-                registerReceiver(new MyReceiver(), intentFilter);
+                registerReceiver(myReceiver, intentFilter);
             }
         });
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
@@ -51,4 +55,11 @@ public class TaoMainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        if (myReceiver != null) {
+            Log.d(TAG, "广播解绑");
+            unregisterReceiver(myReceiver);
+        }
+    }
 }
